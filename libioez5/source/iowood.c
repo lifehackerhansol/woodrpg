@@ -1,5 +1,5 @@
 /*
-    iowood.c
+    iowood.c modified for EZ-Flash V
     Copyright (C) 2010 yellow wood goblin
     Copyright (C) 2021 lifehackerhansol
 
@@ -18,11 +18,11 @@
 */
 
 #include <nds.h>
-bool startup(void);
-bool isInserted(void);
-bool readSectors(u32 sector,u32 numSecs,void* buffer);
-bool writeSectors(u32 sector,u32 numSecs,void* buffer);
-bool clearStatus(void);
+bool EZSD_StartUp(void);
+bool EZSD_IsInserted(void);
+bool EZSD_ReadSectors(u32 sector, u8 numSecs, void* buffer);
+bool EZSD_WriteSectors(u32 sector, u8 numSecs, void* buffer);
+bool EZSD_ClearStatus(void) ;
 bool shutdown(void);
 #define NAND 0
 #define SD   1
@@ -37,29 +37,29 @@ void NandFlush(void)
 
 int ioWoodInit(unsigned char aDrive)
 {
-  if(aDrive==NAND) return (startup()&&isInserted());
+  if(aDrive==NAND) return (EZSD_StartUp()&&EZSD_IsInserted());
   return FALSE;
 }
 
 int ioWoodStatus(unsigned char aDrive)
 {
-  if(aDrive==NAND) return isInserted();
+  if(aDrive==NAND) return EZSD_IsInserted();
   return FALSE;
 }
 
 int ioWoodRead(unsigned char aDrive,unsigned char* aBuffer,unsigned long aSector,unsigned char aCount)
 {
-  if(aDrive==NAND) return readSectors(aSector,aCount,aBuffer);
+  if(aDrive==NAND) return EZSD_ReadSectors(aSector,aCount,aBuffer);
   return FALSE;
 }
 
 int ioWoodWrite(unsigned char aDrive,const unsigned char* aBuffer,unsigned long aSector,unsigned char aCount)
 {
-  if(aDrive==NAND) return writeSectors(aSector,aCount,(void*)aBuffer);
+  if(aDrive==NAND) return EZSD_WriteSectors(aSector,aCount,(void*)aBuffer);
   return FALSE;
 }
 
 void ioWoodSync(unsigned char aDrive)
 {
-  if(aDrive==NAND) clearStatus();
+  if(aDrive==NAND) EZSD_ClearStatus();
 }

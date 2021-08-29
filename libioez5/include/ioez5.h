@@ -11,8 +11,8 @@
 	See gba_nds_fat.txt for help and license details.
 */
 
-#ifndef IO_EZSD_H
-#define IO_EZSD_H
+#ifndef IOEZ5_H
+#define IOEZ5_H
 
 // #include "common.h"
 
@@ -205,6 +205,13 @@ void SD_ReadData(unsigned char *ppbuf, int len,int wait);
 bool SD_GetCSDStruct(unsigned char * ppbuf , int len , SD_CSD *pCsd);
 bool SD_GetCIDStruct(unsigned char * ppbuf , int len , SD_CID *pCid);
 bool SD_initial();
+bool EZSD_StartUp(void);
+bool EZSD_IsInserted(void);
+bool EZSD_read1sector(u32 sectorn,u32 TAddr);
+bool EZSD_write1sector(u32 sectorn,u32 TAddr);
+bool EZSD_ReadSectors(u32 sector, u8 numSecs, void* buffer);
+bool EZSD_WriteSectors(u32 sector, u8 numSecs, void* buffer);
+bool EZSD_ClearStatus(void) ;
+bool shutdown(void);
 
-
-#endif	// define IO_EZSD_H
+#endif	// define IOEZ5_H
