@@ -9,7 +9,7 @@ void cardWriteCommand(const uint8 *command)
   REG_AUXSPICNTH = CARD_CR1_ENABLE | CARD_CR1_IRQ;
 
   for (index = 0; index < 8; index++) {
-    CARD_COMMAND[7-index] = command[index];
+    REG_CARD_COMMAND[7-index] = command[index];
   }
 }
 
@@ -22,7 +22,7 @@ void cardPolledTransfer(uint32 flags, uint32 *destination, uint32 length, const 
   do {
     // Read data if available
     if (REG_ROMCTRL & CARD_DATA_READY) {
-      data=CARD_DATA_RD;
+      data=REG_CARD_DATA_RD;
       if (destination < target)
         *destination = data;
       destination++;
@@ -39,7 +39,7 @@ void cardWaitReady(u32 flags, u8 *command)
     REG_ROMCTRL = flags;
     do {
       if (REG_ROMCTRL & CARD_DATA_READY)
-        if (!CARD_DATA_RD) ready = true;
+        if (!REG_CARD_DATA_RD) ready = true;
     } while (REG_ROMCTRL & CARD_BUSY);
   } while (!ready);
 }
@@ -52,7 +52,7 @@ void bytecardPolledTransfer(uint32 flags, uint32 * destination, uint32 length, u
   do {
     // Read data if available
     if (REG_ROMCTRL & CARD_DATA_READY) {
-      data=CARD_DATA_RD;
+      data=REG_CARD_DATA_RD;
       if (destination < target) {
         ((uint8*)destination)[0] = data & 0xff;
         ((uint8*)destination)[1] = (data >> 8) & 0xff;
@@ -127,7 +127,7 @@ void LogicCardWrite(u32 address, u32 *source, u32 length)
           data = *source;
       }
       source++;
-      CARD_DATA_RD = data;
+      REG_CARD_DATA_RD = data;
     }
   } while (REG_ROMCTRL & CARD_BUSY);
   command[7] = 0xbc;

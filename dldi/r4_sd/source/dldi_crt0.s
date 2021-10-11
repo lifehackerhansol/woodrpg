@@ -1,5 +1,5 @@
 @---------------------------------------------------------------------------------
-	.section ".init"
+	.section ".crt0","ax"
 @---------------------------------------------------------------------------------
 	.global _start
 	.align	4
@@ -29,7 +29,7 @@
 @---------------------------------------------------------------------------------
 @ Text identifier - can be anything up to 47 chars + terminating null -- 48 bytes
 	.align	4
-	.asciz "R4(DS) - Revolution for DS"
+	.asciz "R4(DS) - Revolution for DS (YWG)"
 	
 @---------------------------------------------------------------------------------
 @ Offsets to important sections within the data	-- 32 bytes
